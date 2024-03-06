@@ -1,18 +1,22 @@
-import random
-
 from yyds import *
 
 
-def control_click(s=3, **node) -> None:
+def control_click(s=3, node=None, **match_params) -> None:
     """
     查找控件并点击
     :param s: 等待几秒
-    :param node: 匹配参数
+    :param node: None
+    :param match_params: 匹配参数
     :return: none
     """
-    res = ui_match(**node)
-    if len(res):
-        lists = res[0].bound_str.replace("][", ",")[1:-1].split(",")
+    lists = []
+    if node:
+        lists = node.bound_str.replace("][", ",")[1:-1].split(",")
+    else:
+        res = ui_match(**match_params)
+        if len(res):
+            lists = res[0].bound_str.replace("][", ",")[1:-1].split(",")
+    if lists:
         x = int(lists[0]) + ((int(lists[2]) - int(lists[0])) / 2)
         y = int(lists[1]) + ((int(lists[3]) - int(lists[1])) / 2)
         click(int(x), int(y))
@@ -31,7 +35,7 @@ def set_text_(text) -> None:
     sleep(1)
 
 
-def odds(o=25) -> bool:
+def odds(o=20) -> bool:
     """
     获取概率
     :param o: 概率0~100，默认25

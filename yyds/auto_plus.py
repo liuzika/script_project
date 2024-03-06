@@ -110,7 +110,7 @@ def swipe_up():
           random.randint(int(DeviceScreen._dh * 0.75), int(DeviceScreen._dh * 0.8)),
           random.randint(int(DeviceScreen._dw * 0.5), int(DeviceScreen._dw * 0.55)),
           random.randint(int(DeviceScreen._dh * 0.2), int(DeviceScreen._dh * .3)),
-          random.randint(1200, 1500))
+          random.randint(400, 700))
 
 
 def swipe_down():

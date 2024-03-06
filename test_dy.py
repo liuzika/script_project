@@ -47,12 +47,11 @@ def xgnc(task_id):
 def yh(task_id):
     params = {
         "duration": 60,  # 养号时长，分钟
-        "is_star": True,  # 是否随机点赞视频
-        "is_comment": True,  # 是否随机评论
-        "comment": "评论内容",  # 评论内容
-        "is_concern": True,  # 是否随机关注用户
-        "is_browse_comments": True,  # 是否随机浏览评论区
-        "is_comments_star": True,  # 是否随机评论区点赞
+        "user_info": {"is": True, "odds": 20},  # 随机查看用户
+        "star": {"is": True, "odds": 20},  # 是否随机点赞视频
+        "comment": {"is": True, "odds": 20, "text": "评论内容"},  # 是否随机评论
+        "concern": {"is": True, "odds": 10},  # 是否随机关注用户
+        "browse_comments": {"is": True, "odds": 10, "is_star": True, "star_odds": 20},  # 是否随机浏览评论区
     }
     ret = dy.on_hook(task_id, params)
     print(json.dumps(ret.__dict__))
