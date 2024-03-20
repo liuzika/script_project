@@ -6,8 +6,8 @@ def main(task_id, task_params) -> TaskRet:
     pkg = "com.ss.android.ugc.aweme"
     home_activity = ".splash.SplashActivity"
     profile_activity = ".profile.ui.ProfileEditActivity"
-    avatar_url = task_params.url
-    shell("wget -q -O /sdcard/DCIM/1.jpg " + avatar_url)
+    # avatar_url = task_params.url
+    # shell("wget -q -O /sdcard/DCIM/1.jpg " + avatar_url)
     engine_set_debug(True)
     stop_app(pkg)
     sleep(2)
@@ -38,7 +38,7 @@ def main(task_id, task_params) -> TaskRet:
                         swipe(350, 900, 450, 200, 800, is_random=True)
                         i += 1
                     sleep(1)
-            find_image_click("/sdcard/DCIM/1.jpg", min_prob=0.6)
+            find_image_click(task_params.url, min_prob=0.6)
             sleep(2)
             control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/tv_confirm", text="完成")
             control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/q+1")

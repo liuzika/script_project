@@ -4,7 +4,6 @@ from dy.utils import control_click, set_text_
 
 def main(task_id, task_params) -> TaskRet:
     pkg = "com.ss.android.ugc.aweme"
-    params = task_params
     home_activity = ".splash.SplashActivity"
     GrantPermissionsActivity = ".permission.ui.GrantPermissionsActivity"
     VideoRecordNewActivity = ".shortvideo.ui.VideoRecordNewActivity"
@@ -29,22 +28,22 @@ def main(task_id, task_params) -> TaskRet:
             control_click(limit=1, text="下一步")
             if device_foreground().activity_name == InfiniEditActivity:
                 control_click(5, limit=1, resource_id="com.ss.android.ugc.aweme:id/orl", text="下一步")
-                if params["desc"] or params["@user"] or params["tag"]:
+                if task_params["desc"] or task_params["@user"] or task_params["tag"]:
                     control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/ftr", text="添加作品描述..")
                     text = ""
-                    if params["desc"]:
-                        text += params["desc"] + " "
-                    for tag in params["tag"]:
+                    if task_params["desc"]:
+                        text += task_params["desc"] + " "
+                    for tag in task_params["tag"]:
                         text += "#" + tag + " "
                     set_text_(text)
                     sleep(2)
-                    for user in params["@user"]:
+                    for user in task_params["@user"]:
                         control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/ac2", content_desc="@朋友，按钮")
                         set_yy_input_enable(True)
                         x_input_text(user)
                         sleep(2)
                         control_click(limit=1, drawing_order="3", index="0", class_="android.widget.FrameLayout")
-                if params["address"]:
+                if task_params["address"]:
                     control_click(5, limit=1, resource_id="com.ss.android.ugc.aweme:id/qan")
                     control_click(limit=1, class_="com.bytedance.ies.xelement.input.LynxInputView")
                     set_text_("gd")

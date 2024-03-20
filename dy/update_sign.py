@@ -6,7 +6,6 @@ def main(task_id, task_params) -> TaskRet:
     pkg = "com.ss.android.ugc.aweme"
     home_activity = ".splash.SplashActivity"
     profile_activity = ".profile.ui.ProfileEditActivity"
-    sign = task_params.sign
     engine_set_debug(True)
     stop_app(pkg)
     sleep(2)
@@ -19,7 +18,7 @@ def main(task_id, task_params) -> TaskRet:
             control_click(limit=1, hind_text="介绍喜好、个性或@你的亲友",
                           resource_id="com.ss.android.ugc.aweme:id/tv_profile_item_content")
             control_click(limit=1, hind_text="介绍喜好、个性或@你的亲友", resource_id="com.ss.android.ugc.aweme:id/f7n")
-            set_text_(sign)
+            set_text_(task_params.sign)
             control_click(5, limit=1, text="保存", resource_id="com.ss.android.ugc.aweme:id/right_btn")
             stop_app(pkg)
             return TaskRet(task_id, True, "成功修改简介")

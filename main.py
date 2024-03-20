@@ -4,7 +4,7 @@ import test_dy
 
 
 def main():
-    test_dy.yh(123)
+    test_dy.hd(123)
     # device_id = shell("cat /data/local/tmp/id")
     # server_json = requests.get(f"http://xxxxxxx?deviceId=${device_id}").json()  # 此脚本被运行, 向服务器申请执行参数
     # task_name = server_json["task"]

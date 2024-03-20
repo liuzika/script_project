@@ -1,6 +1,6 @@
 import json
 
-import dy
+import tiktok
 
 
 # 发布视频
@@ -12,7 +12,7 @@ def fbsp(task_id):
         "tag": ["爆款短剧", "精彩短剧"],  # 视频标签、话题，可多个
         "address": "gd"  # 定位
     }
-    ret = dy.release_video(task_id, params)
+    ret = tiktok.release_video(task_id, params)
     print(json.dumps(ret.__dict__))
 
 
@@ -21,7 +21,7 @@ def xgtx(task_id):
     params = {
         "url": "https://xxx.jpg/"  # 图片本地地址
     }
-    ret = dy.update_avatar(task_id, params)
+    ret = tiktok.update_avatar(task_id, params)
     print(json.dumps(ret.__dict__))
 
 
@@ -30,7 +30,7 @@ def xgjj(task_id):
     params = {
         "sign": "xxxxxxxxxxxxxxxxxxxxxx"  # 简介，一段文本
     }
-    ret = dy.update_sign(task_id, params)
+    ret = tiktok.update_sign(task_id, params)
     print(json.dumps(ret.__dict__))
 
 
@@ -39,7 +39,7 @@ def xgnc(task_id):
     params = {
         "nickname": "xxx"  # 新昵称
     }
-    ret = dy.update_nickname(task_id, params)
+    ret = tiktok.update_nickname(task_id, params)
     print(json.dumps(ret.__dict__))
 
 
@@ -53,7 +53,7 @@ def yh(task_id):
         "concern": {"is": True, "odds": 10},  # 是否随机关注用户
         "browse_comments": {"is": True, "odds": 10, "is_star": True, "star_odds": 20},  # 是否随机浏览评论区
     }
-    ret = dy.on_hook(task_id, params)
+    ret = tiktok.on_hook(task_id, params)
     print(json.dumps(ret.__dict__))
 
 
@@ -62,5 +62,5 @@ def hd(task_id):
     params = {
         "text": "xxx"  # 新昵称
     }
-    ret = dy.interact(task_id, params)
+    ret = tiktok.interact(task_id, params)
     print(json.dumps(ret.__dict__))

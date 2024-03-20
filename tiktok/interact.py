@@ -2,10 +2,10 @@ from yyds import *
 from dy.utils import control_click, set_text_
 
 
-def main(task_id) -> TaskRet:
+def main(task_id, task_params) -> TaskRet:
     try:
-        pkg = "com.ss.android.ugc.aweme"
-        home_activity = ".splash.SplashActivity"
+        pkg = "com.zhiliaoapp.musically"
+        home_activity = "com.ss.android.ugc.aweme.splash.SplashActivity"
         NotificationDetailActivity = ".socialnotice.view.activity.NotificationDetailActivity"
         engine_set_debug(True)
         stop_app(pkg)
