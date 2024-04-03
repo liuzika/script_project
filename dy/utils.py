@@ -40,3 +40,5 @@ def odds(o=20) -> bool:
     :return: bool
     """
     return random.randint(1, 100) <= o
+
+

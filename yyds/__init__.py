@@ -1,8 +1,12 @@
+from enum import Enum
+
 from .auto_plus import *
 
 
-class TaskRet:
-    def __init__(self, uuid, success: bool, desc: str) -> None:
-        self.uuid = uuid
-        self.success = success
-        self.desc = desc
+class TaskStatus(Enum):
+    # 手机正在执行中
+    DEVICE_EXE = 5
+    # 手机执行完成
+    DEVICE_FINISH = 7
+    # 手机执行异常
+    DEVICE_EXE_ERROR = 9

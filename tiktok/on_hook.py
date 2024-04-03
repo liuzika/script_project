@@ -2,7 +2,7 @@ from yyds import *
 from dy.utils import control_click, set_text_, odds
 
 
-def main(task_id, task_params) -> TaskRet:
+def main(task):
     pkg = "com.zhiliaoapp.musically"
     home_activity = "com.ss.android.ugc.aweme.splash.SplashActivity"
     engine_set_debug(True)
@@ -10,8 +10,8 @@ def main(task_id, task_params) -> TaskRet:
     sleep(2)
     open_app(pkg)
     sleep(5)
-    duration, user_info, star, comment, concern, browse_comments = task_params.get("duration"), task_params.get(
-        "user_info"), task_params.get("star"), task_params.get("comment"), task_params.get("concern"), task_params.get("browse_comments")
+    duration, user_info, star, comment, concern, browse_comments = task.params.get("duration"), task.params.get(
+        "user_info"), task.params.get("star"), task.params.get("comment"), task.params.get("concern"), task.params.get("browse_comments")
     stop_time = time.time() + duration * 60
     try:
         DeviceScreen.init()  # 初始化设备参数
@@ -66,7 +66,6 @@ def main(task_id, task_params) -> TaskRet:
                     control_click(resource_id="com.zhiliaoapp.musically:id/aio", content_desc="Close comments")  # 关闭评论区
             else:
                 open_app(pkg)
-        return TaskRet(task_id, True, "养号结束")
+        task.update_task_status(TaskStatus.DEVICE_FINISH, "养号结束")
     except Exception as e:
-        log_d(e)
-        return TaskRet(task_id, False, "脚本异常中断")
+        task.update_task_status(TaskStatus.DEVICE_EXE_ERROR, f"执行错误: {repr(e)}")

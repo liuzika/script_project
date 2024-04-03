@@ -2,7 +2,7 @@ from yyds import *
 from dy.utils import control_click, set_text_
 
 
-def main(task_id) -> TaskRet:
+def main(task):
     try:
         pkg = "com.ss.android.ugc.aweme"
         home_activity = ".splash.SplashActivity"
@@ -56,7 +56,6 @@ def main(task_id) -> TaskRet:
                     break
                 control_click(limit=1, text="查看全部")
                 swipe_up()
-            return TaskRet(task_id, True, "私聊互动结束")
+            task.update_task_status(TaskStatus.DEVICE_FINISH, "互动与私聊执行完成")
     except Exception as e:
-        log_d(e)
-        return TaskRet(task_id, False, "脚本异常中断")
+        task.update_task_status(TaskStatus.DEVICE_EXE_ERROR, f"执行错误: {repr(e)}")
