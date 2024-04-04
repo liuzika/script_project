@@ -1,13 +1,13 @@
 from yyds import *
 
 
-def control_click(s=3, node=None, **match_params) -> None:
+def control_click(s=3, node=None, **match_params) -> bool:
     """
     查找控件并点击
     :param s: 等待几秒
     :param node: None
     :param match_params: 匹配参数
-    :return: none
+    :return: bool
     """
     lists = []
     if node:
@@ -20,7 +20,10 @@ def control_click(s=3, node=None, **match_params) -> None:
         x = int(lists[0]) + ((int(lists[2]) - int(lists[0])) / 2)
         y = int(lists[1]) + ((int(lists[3]) - int(lists[1])) / 2)
         click(int(x), int(y))
-    sleep(s)
+        sleep(s)
+        return True
+    else:
+        return False
 
 
 def set_text_(text) -> None:
@@ -34,11 +37,15 @@ def set_text_(text) -> None:
 
 
 def odds(o=20) -> bool:
-    """
-    获取概率
-    :param o: 概率0~100，默认25
-    :return: bool
-    """
     return random.randint(1, 100) <= o
 
 
+def try_func(fun):
+    def wrapper(task, pkg):
+        try:
+            engine_set_debug(True)
+            fun(task, pkg)
+        except Exception as e:
+            task.update_task_status(TaskStatus.DEVICE_EXE_ERROR, f"执行错误: {repr(e)}")
+
+    return wrapper
