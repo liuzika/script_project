@@ -3,7 +3,7 @@ from utils import set_text_, control_click, try_func
 
 
 @try_func
-def main(task, pkg):
+def main(task, pkg) -> bool:
     home_activity = ".splash.SplashActivity"
     profile_activity = ".profile.ui.ProfileEditActivity"
     stop_app(pkg)
@@ -21,7 +21,5 @@ def main(task, pkg):
             control_click(5, limit=1, text="保存", resource_id="com.ss.android.ugc.aweme:id/right_btn")
             if ui_exist(class_="android.widget.ImageView", text=task.params.nickname):
                 task.update_task_status(TaskStatus.DEVICE_FINISH, '成功修改昵称')
-            else:
-                main(task)
-        else:
-            pass
+                return True
+    return False

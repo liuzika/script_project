@@ -3,7 +3,7 @@ from utils import control_click, set_text_, try_func
 
 
 @try_func
-def main(task, pkg):
+def main(task, pkg) -> bool:
     home_activity = ".splash.SplashActivity"
     GrantPermissionsActivity = ".permission.ui.GrantPermissionsActivity"
     VideoRecordNewActivity = ".shortvideo.ui.VideoRecordNewActivity"
@@ -56,3 +56,5 @@ def main(task, pkg):
                                       clickable="true")
                 control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/ran", text="发布")
                 task.update_task_status(TaskStatus.DEVICE_FINISH, "成功发布视频")
+                return True
+    return False

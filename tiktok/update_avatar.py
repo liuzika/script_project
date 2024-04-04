@@ -3,7 +3,7 @@ from utils import control_click, try_func
 
 
 @try_func
-def main(task, pkg):
+def main(task, pkg) -> bool:
     home_activity = "com.ss.android.ugc.aweme.splash.SplashActivity"
     profile_activity = "com.ss.android.ugc.aweme.profile.ui.ProfileEditActivity"
     stop_app(pkg)
@@ -51,4 +51,5 @@ def main(task, pkg):
             control_click(5, resource_id="com.zhiliaoapp.musically:id/nak", text="Save")
             stop_app(pkg)
             task.update_task_status(TaskStatus.DEVICE_FINISH, "成功修改头像")
-
+            return True
+    return False

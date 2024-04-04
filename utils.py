@@ -44,7 +44,11 @@ def try_func(fun):
     def wrapper(task, pkg):
         try:
             engine_set_debug(True)
-            fun(task, pkg)
+            retry_num = 3
+            while retry_num > 0:
+                if fun(task, pkg):
+                    break
+                retry_num -= 1
         except Exception as e:
             task.update_task_status(TaskStatus.DEVICE_EXE_ERROR, f"执行错误: {repr(e)}")
 

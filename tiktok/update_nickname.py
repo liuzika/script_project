@@ -3,7 +3,7 @@ from utils import set_text_, control_click, try_func
 
 
 @try_func
-def main(task, pkg):
+def main(task, pkg) -> bool:
     home_activity = "com.ss.android.ugc.aweme.splash.SplashActivity"
     profile_activity = "com.ss.android.ugc.aweme.profile.ui.ProfileEditActivity"
     nickname = task.params.nickname
@@ -22,3 +22,5 @@ def main(task, pkg):
             control_click(10, limit=1, resource_id="com.zhiliaoapp.musically:id/hot")
             stop_app(pkg)
             task.update_task_status(TaskStatus.DEVICE_FINISH, "成功修改昵称")
+            return True
+    return False

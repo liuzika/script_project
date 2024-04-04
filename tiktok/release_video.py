@@ -3,7 +3,7 @@ from utils import control_click, set_text_, try_func
 
 
 @try_func
-def main(task, pkg):
+def main(task, pkg) -> bool:
     home_activity = "com.ss.android.ugc.aweme.splash.SplashActivity"
     stop_app(pkg)
     sleep(2)
@@ -47,3 +47,5 @@ def main(task, pkg):
                 control_click(limit=1, resource_id="com.zhiliaoapp.musically:id/bms", index="0")
             control_click(limit=1, resource_id="com.zhiliaoapp.musically:id/jfv", content_desc="Post")
             task.update_task_status(TaskStatus.DEVICE_FINISH, "成功发布视频")
+            return True
+    return False

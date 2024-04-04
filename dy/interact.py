@@ -3,7 +3,7 @@ from utils import control_click, set_text_, try_func
 
 
 @try_func
-def main(task, pkg):
+def main(task, pkg) -> bool:
     home_activity = ".splash.SplashActivity"
     NotificationDetailActivity = ".socialnotice.view.activity.NotificationDetailActivity"
     stop_app(pkg)
@@ -56,3 +56,5 @@ def main(task, pkg):
             control_click(limit=1, text="查看全部")
             swipe_up()
         task.update_task_status(TaskStatus.DEVICE_FINISH, "互动与私聊执行完成")
+        return True
+    return False

@@ -3,7 +3,7 @@ from utils import control_click, set_text_, odds, try_func
 
 
 @try_func
-def main(task, pkg):
+def main(task, pkg) -> bool:
     home_activity = ".splash.SplashActivity"
     stop_app(pkg)
     sleep(2)
@@ -66,5 +66,8 @@ def main(task, pkg):
                     sleep(2)
                 control_click(resource_id="com.ss.android.ugc.aweme:id/back_btn", content_desc="关闭")  # 关闭评论区
         else:
+            stop_app(pkg)
+            sleep(2)
             open_app(pkg)
     task.update_task_status(TaskStatus.DEVICE_FINISH, "养号执行完成")
+    return True

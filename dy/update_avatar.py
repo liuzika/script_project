@@ -3,7 +3,7 @@ from utils import control_click, try_func
 
 
 @try_func
-def main(task, pkg):
+def main(task, pkg) -> bool:
     home_activity = ".splash.SplashActivity"
     profile_activity = ".profile.ui.ProfileEditActivity"
     stop_app(pkg)
@@ -40,5 +40,6 @@ def main(task, pkg):
             control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/tv_confirm", text="完成")
             control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/q+1")
             control_click(5, limit=1, resource_id="com.ss.android.ugc.aweme:id/q+0", text="完成")
-            stop_app(pkg)
             task.update_task_status(TaskStatus.DEVICE_FINISH, "成功修改头像")
+            return True
+    return False
