@@ -1,6 +1,5 @@
 from .auto_func import *
 from .auto_api_aux import *
-from .util import *
 import time
 
 

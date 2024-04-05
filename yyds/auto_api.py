@@ -12,8 +12,10 @@ import hashlib
 import importlib
 from typing import Union, Tuple, List, Optional
 from .auto_entity import *
-from .util import log_d
-from .util import log_e
+from .util import Logger
+
+log_d = Logger.log_d
+log_e = Logger.log_e
 
 
 class ProjectEnvironment:

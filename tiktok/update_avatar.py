@@ -1,15 +1,11 @@
-from yyds import *
-from utils import control_click, try_func
+from script_common.utils import *
 
 
 @try_func
 def main(task, pkg) -> bool:
     home_activity = "com.ss.android.ugc.aweme.splash.SplashActivity"
     profile_activity = "com.ss.android.ugc.aweme.profile.ui.ProfileEditActivity"
-    stop_app(pkg)
-    sleep(2)
-    open_app(pkg)
-    sleep(5)
+    start_app(pkg)
     if device_foreground().activity_name == home_activity:
         control_click(limit=1, content_desc="Profile", resource_id="com.zhiliaoapp.musically:id/h3j")
         control_click(limit=1, resource_id="com.zhiliaoapp.musically:id/ccu", text="Edit profile")

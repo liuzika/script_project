@@ -1,25 +1,22 @@
-from yyds import *
-from utils import control_click, set_text_, odds, try_func
+from script_common.utils import *
 
 
 @try_func
 def main(task, pkg) -> bool:
+    task_params = task.params
     home_activity = "com.ss.android.ugc.aweme.splash.SplashActivity"
-    stop_app(pkg)
-    sleep(2)
-    open_app(pkg)
-    sleep(5)
-    duration, user_info, star, comment, concern, browse_comments = task.params.get("duration"), task.params.get(
-        "user_info"), task.params.get("star"), task.params.get("comment"), task.params.get("concern"), task.params.get(
-        "browse_comments")
+    start_app(pkg)
+    duration, user_info, star, comment, concern, browse, stat_comment, comment_odds = task_params.get(
+        "duration"), task_params.get(
+        "user_info"), task_params.get("star"), task_params.get("comment"), task_params.get("concern"), task_params.get(
+        "browse"), task_params.get("stat_comment"), task_params.get("comment_odds")
     stop_time = time.time() + duration * 60
-    DeviceScreen.init()  # 初始化设备参数
     while time.time() <= stop_time:
         if home_activity == device_foreground().activity_name:
             swipe_up()
             sleep(random.randint(3, 10))  # 视频停留时间
             # 随机点进用户里面去查看
-            if user_info["is"] and odds(user_info["odds"]):
+            if user_info and odds(int(user_info)):
                 control_click(5, resource_id="com.zhiliaoapp.musically:id/title", index="0")  # 用户界面
                 # if ui_exist(resource_id="com.ss.android.ugc.aweme:id/7a"):
                 #     control_click(class_="android.widget.ImageView", index="2")
@@ -32,29 +29,29 @@ def main(task, pkg) -> bool:
                 #     control_click(resource_id="com.ss.android.ugc.aweme:id/iv_back")
                 #     control_click(resource_id="com.ss.android.ugc.aweme:id/goh", text="直接退出")
             # 随机点赞
-            if star["is"] and odds(star["odds"]):
+            if star and odds(int(star)):
                 control_click(resource_id="com.zhiliaoapp.musically:id/cnv", content_desc="Like")  # 点击爱心点赞
             # 随机评论
-            if comment["is"] and odds(comment["odds"]):
+            if comment_odds and odds(int(comment_odds)):
                 # if ui_exist(resource_id="com.zhiliaoapp.musically:id/buv", content_desc="评论评论，按钮"):
                 #     control_click(resource_id="com.zhiliaoapp.musically:id/buv")  # 打开评论区
                 # else:
                 control_click(resource_id="com.zhiliaoapp.musically:id/buv")  # 打开评论区
                 control_click(resource_id="com.zhiliaoapp.musically:id/bui")  # 聚焦输入框
-                set_text_(comment["text"])  # 粘贴评论内容
+                set_text_(comment)  # 粘贴评论内容
                 control_click(8, resource_id="com.zhiliaoapp.musically:id/bwe", content_desc="Post comment")  # 发送评论
                 control_click(resource_id="com.zhiliaoapp.musically:id/aio", content_desc="Close comments")  # 关闭评论区
             # 随机关注用户
-            if concern["is"] and odds(concern["odds"]):
+            if concern and odds(int(concern)):
                 control_click(resource_id="com.zhiliaoapp.musically:id/e1n")  # 点击加号关注
             # 随机浏览评论区,点赞评论
-            if browse_comments["is"] and odds(browse_comments["odds"]):
+            if browse and odds(int(browse)):
                 control_click(resource_id="com.zhiliaoapp.musically:id/buv")  # 打开评论区
                 # control_click(resource_id="com.ss.android.ugc.aweme:id/hkj", content_desc="放大评论区")  # 放大评论区
                 count = random.randint(1, 10)  # 评论区浏览次数，滑动次数
                 for i in range(count):
                     # 随机评论区点赞
-                    if browse_comments["is_star"] and odds(browse_comments["star_odds"]):
+                    if stat_comment and odds(int(stat_comment)):
                         star_list = ui_match(resource_id="com.zhiliaoapp.musically:id/fp7",
                                              content_desc="Like or undo like")
                         for item in star_list:

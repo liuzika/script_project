@@ -9,15 +9,27 @@ def format_time():
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
 
-def log_d(*objs):
-    """
-    打印标准日志, 在Yyds.Auto开发插件中一般日志显示为灰色
-    """
-    print(format_time() + "\t" + " ".join([str(i) for i in objs]), file=sys.stdout)
+class Logger:
+    log_path = f"/sdcard/Documents/{time.strftime('%Y-%m-%d', time.localtime())}.log"
 
+    @classmethod
+    def log_d(cls, *objs):
+        """
+        打印标准日志, 在Yyds.Auto开发插件中一般日志显示为灰色
+        """
+        lt = format_time() + "\t" + " ".join([str(i) for i in objs])
+        print(lt, file=sys.stdout)
+        with open(cls.log_path, mode="a+") as fw:
+            fw.write("D:" + lt + "\n")
+            fw.flush()
 
-def log_e(*objs):
-    """
-    打印错误日志, 在Yyds.Auto开发插件中一般日志显示为红色
-    """
-    print(format_time() + "\t" + " ".join([str(i) for i in objs]), file=sys.stderr)
+    @classmethod
+    def log_e(cls, *objs):
+        """
+        打印错误日志, 在Yyds.Auto开发插件中一般日志显示为红色
+        """
+        lt = format_time() + "\t" + " ".join([str(i) for i in objs])
+        print(lt, file=sys.stderr)
+        with open(cls.log_path, mode="a+") as fw:
+            fw.write("E:" + lt  + "\n")
+            fw.flush()

@@ -1,8 +1,19 @@
+import codecs
 import json
+import sys,os
 from enum import Enum
 import requests
-import codecs
-import sys
+sys.path.append(os.path.dirname(__file__))
+from .utils import Logger
+
+
+class TaskStatus(Enum):
+    # 手机正在执行中
+    DEVICE_EXE = 5
+    # 手机执行完成
+    DEVICE_FINISH = 7
+    # 手机执行异常
+    DEVICE_EXE_ERROR = 9
 
 
 def get_device_id() -> str:
@@ -19,41 +30,17 @@ def get_device_id() -> str:
         return "b9d95d3a69df76dbe7622db892f12fd676828622426efba3ac483e80631011de"
 
 
-class TaskStatus(Enum):
-    # 手机正在执行中
-    DEVICE_EXE = 5
-    # 手机执行完成
-    DEVICE_FINISH = 7
-    # 手机执行异常
-    DEVICE_EXE_ERROR = 9
-
-
 class Task:
-    SERVER_BASE_URL = "http://127.0.0.1:5031"
+    SERVER_BASE_URL = "http://43.224.152.122:5031"
 
     def __init__(self):
         ret_json = requests.get(f"{Task.SERVER_BASE_URL}/task/fetch_device_task?device_id={get_device_id()}").json()
-        # print(ret_json)
-        # 输出例子如下, 我们脚本只关心运行参数与uuid:
-        # {
-        #     "id": 3,
-        #     "uuid": "5b2088cb-7f08-4003-b61e-87e068c88876",
-        #     "date_create": 1711246437,
-        #     "date_update": 1711246437,
-        #     "box_id": "42ed7bb33e47e1d9a7edb6d6bf5cd200",
-        #     "device_id": "b9d95d3a69df76dbe7622db892f12fd676828622426efba3ac483e80631011de",
-        #     "script_project_id": 5,
-        #     "task_params_json": " {\"aaaa\":6}",
-        #     "timing_execute": "1711243885",
-        #     "task_app": "抖音",
-        #     "task_name": "发布视频",
-        #     "status_code": 3,
-        #     "status_desc": "新建任务"
-        # }
+        Logger.log_d("HTTP拉取:", ret_json)
         self.ret_json = ret_json
         self.task_id = ret_json["uuid"]
         self.params_json = ret_json["task_params_json"]
         self.params = json.loads(self.params_json)
+        self.task_action = self.params["task_id"]
         self.update_task_status(TaskStatus.DEVICE_EXE, "手机成功拉取任务参数")
 
     def update_task_status(self, st: TaskStatus, desc: str):
@@ -62,7 +49,8 @@ class Task:
             "status_code": st.value,
             "status_desc": desc
         }
-        print(requests.post(f"{self.SERVER_BASE_URL}/task/update_status?device_id={get_device_id()}", json=rj).text)
+        Logger.log_d("更新任务状态: {0}".format(rj))
+        Logger.log_d(requests.post(f"{self.SERVER_BASE_URL}/task/update_status?device_id={get_device_id()}", json=rj).text)
 
     def __str__(self):
         return str(self.ret_json)

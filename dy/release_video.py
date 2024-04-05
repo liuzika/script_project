@@ -1,17 +1,16 @@
-from yyds import *
-from utils import control_click, set_text_, try_func
+from script_common.utils import *
 
 
 @try_func
 def main(task, pkg) -> bool:
+    task_params = task.params
+    task_params["@user"] = split(task_params['@user'])
+    task_params["tag"] = split(task_params['tag'])
     home_activity = ".splash.SplashActivity"
     GrantPermissionsActivity = ".permission.ui.GrantPermissionsActivity"
     VideoRecordNewActivity = ".shortvideo.ui.VideoRecordNewActivity"
     InfiniEditActivity = ".tools.infini.core.InfiniEditActivity"
-    stop_app(pkg)
-    sleep(2)
-    open_app(pkg)
-    sleep(5)
+    start_app(pkg)
     if device_foreground().activity_name == home_activity:
         control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/b7p")
         control_click(limit=1, content_desc="拍摄，按钮", resource_id="com.ss.android.ugc.aweme:id/vg+")
@@ -27,23 +26,23 @@ def main(task, pkg) -> bool:
             control_click(limit=1, text="下一步")
             if device_foreground().activity_name == InfiniEditActivity:
                 control_click(5, limit=1, resource_id="com.ss.android.ugc.aweme:id/orl", text="下一步")
-                if task.params["desc"] or task.params["@user"] or task.params["tag"]:
+                if task_params["desc"] or task_params["@user"] or task_params["tag"]:
                     control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/ftr", text="添加作品描述..")
                     text = ""
-                    if task.params["desc"]:
-                        text += task.params["desc"] + " "
-                    for tag in task.params["tag"]:
+                    if task_params["desc"]:
+                        text += task_params["desc"] + " "
+                    for tag in task_params["tag"]:
                         text += "#" + tag + " "
                     set_text_(text)
                     sleep(2)
-                    for user in task.params["@user"]:
+                    for user in task_params["@user"]:
                         control_click(limit=1, resource_id="com.ss.android.ugc.aweme:id/ac2",
                                       content_desc="@朋友，按钮")
                         set_yy_input_enable(True)
                         x_input_text(user)
                         sleep(2)
                         control_click(limit=1, drawing_order="3", index="0", class_="android.widget.FrameLayout")
-                if task.params["address"]:
+                if task_params["address"]:
                     control_click(5, limit=1, resource_id="com.ss.android.ugc.aweme:id/qan")
                     control_click(limit=1, class_="com.bytedance.ies.xelement.input.LynxInputView")
                     set_text_("gd")

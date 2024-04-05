@@ -1,14 +1,13 @@
-from yyds import *
-from utils import control_click, set_text_, try_func
+from script_common.utils import *
 
 
 @try_func
 def main(task, pkg) -> bool:
+    task_params = task.params
+    task_params["@user"] = split(task_params['@user'])
+    task_params["tag"] = split(task_params['tag'])
     home_activity = "com.ss.android.ugc.aweme.splash.SplashActivity"
-    stop_app(pkg)
-    sleep(2)
-    open_app(pkg)
-    sleep(5)
+    start_app(pkg)
     if device_foreground().activity_name == home_activity:
         control_click(5, limit=1, content_desc="Create", resource_id="com.zhiliaoapp.musically:id/h3e")
         while device_foreground().activity_name == ".permission.ui.GrantPermissionsActivity":
@@ -19,16 +18,16 @@ def main(task, pkg) -> bool:
             control_click(5, limit=1, resource_id="com.zhiliaoapp.musically:id/nwv")
             control_click(limit=1, class_="android.widget.FrameLayout", index="0", focusable="true")
             control_click(limit=1, text="Next")
-            if task.params["desc"] or task.params["@user"] or task.params["tag"]:
+            if task_params["desc"] or task_params["@user"] or task_params["tag"]:
                 control_click(limit=1, resource_id="com.zhiliaoapp.musically:id/d5k")
                 text = ""
-                if task.params["desc"]:
-                    text += task.params["desc"] + " "
-                for tag in task.params["tag"]:
+                if task_params["desc"]:
+                    text += task_params["desc"] + " "
+                for tag in task_params["tag"]:
                     text += "#" + tag + " "
                 set_text_(text)
                 sleep(2)
-                for user in task.params["@user"]:
+                for user in task_params["@user"]:
                     control_click(limit=1, resource_id="com.zhiliaoapp.musically:id/ac4")
                     control_click(limit=1, resource_id="com.zhiliaoapp.musically:id/kfp")
                     set_yy_input_enable(True)
@@ -36,10 +35,10 @@ def main(task, pkg) -> bool:
                     sleep(2)
                     control_click(limit=1, resource_id="com.zhiliaoapp.musically:id/bc6", index="0",
                                   class_="android.view.ViewGroup")
-            if task.params["address"]:
+            if task_params["address"]:
                 control_click(5, limit=1, resource_id="com.zhiliaoapp.musically:id/bfk")
                 control_click(limit=1, resource_id="com.zhiliaoapp.musically:id/deg")
-                set_text_(task.params["address"])
+                set_text_(task_params["address"])
                 sleep(5)
                 # if ui_exist(content_desc="没有搜索到相关位置"):
                 #     control_click(limit=1, content_desc="返回，按钮")
