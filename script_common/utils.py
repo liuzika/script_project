@@ -2,10 +2,20 @@ from yyds import *
 
 
 # 点击获取第一个符合条件的控件
-def click_ui_find_one(**match_params) -> bool:
+def click_ui_find_one(s=3, node=None, desc='', **match_params) -> bool:
     try:
-        click_target(ui_match(visible_to_user="true", limit=1, **match_params)[0])
-        return True
+        flag = False
+        if node:
+            click_target(node)
+            flag = True
+        ret = ui_match(visible_to_user="true", limit=1, **match_params)
+        if len(ret):
+            click_target(ret[0])
+            flag = True
+        if flag:
+            log_d('点击', desc)
+            sleep(s)
+        return flag
     except Exception as e:
         return False
 
@@ -65,24 +75,6 @@ def ui_find_one(**match_params) -> Node or None:
         return ui_match(visible_to_user="true", limit=1, **match_params)[0]
     except Exception as e:
         return None
-
-
-def control_click(s=3, node=None, **match_params) -> bool:
-    lists = []
-    if node:
-        lists = node.bound_str.replace("][", ",")[1:-1].split(",")
-    else:
-        res = ui_match(**match_params)
-        if len(res):
-            lists = res[0].bound_str.replace("][", ",")[1:-1].split(",")
-    if lists:
-        x = int(lists[0]) + ((int(lists[2]) - int(lists[0])) / 2)
-        y = int(lists[1]) + ((int(lists[3]) - int(lists[1])) / 2)
-        click(int(x), int(y))
-        sleep(s)
-        return True
-    else:
-        return False
 
 
 def set_text_(text) -> None:
